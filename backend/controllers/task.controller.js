@@ -1,6 +1,7 @@
 import TaskModel from "../models/task.model.js";
 export const createTask = async (req, res) => {
   const { title, description, dueDate, priority, status } = req.body;
+  const userId = req.userId;
   try {
     if (!title || title.trim() === "") {
       return res.status(400).json({ message: "Title is required!" });
@@ -15,7 +16,7 @@ export const createTask = async (req, res) => {
       dueDate,
       priority,
       status,
-      user: req.user._id,
+      user: userId,
     });
     await task.save();
 
@@ -28,7 +29,7 @@ export const createTask = async (req, res) => {
 
 export const getManyTasks = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.userId;
 
     if (!userId) {
       res.status(400).json({ message: "User not found!" });
@@ -47,7 +48,7 @@ export const getManyTasks = async (req, res) => {
 
 export const getTask = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.userId;
 
     const { id } = req.params;
     if (!id) {
@@ -69,7 +70,7 @@ export const getTask = async (req, res) => {
 
 export const updateTask = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.userId;
 
     const { id } = req.params;
     const { title, description, dueDate, priority, status, completed } =
@@ -104,7 +105,7 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.userId;
 
     const { id } = req.params;
 
@@ -132,7 +133,7 @@ export const deleteTask = async (req, res) => {
 
 export const deleteAllTasks = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.userId;
 
     const tasks = await TaskModel.find({ user: userId });
 

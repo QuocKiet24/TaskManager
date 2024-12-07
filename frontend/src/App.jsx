@@ -12,6 +12,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import MainLayout from "./layout/MainLayout";
 import AuthLayout from "./layout/AuthLayout";
+import HomePage from "./pages/HomePage";
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
@@ -54,6 +55,14 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route
             path="/"
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
             element={
               <ProtectedRoute>
                 <DashBoardPage />
