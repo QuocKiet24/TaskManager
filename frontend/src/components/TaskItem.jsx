@@ -1,7 +1,10 @@
 import { Check, Pencil, Trash } from "lucide-react";
 import { formatDate } from "../utils/dateFormat";
+import { useTaskStore } from "../store/taskStore";
 
 const TaskItem = ({ task }) => {
+  const { getTask, openModalForEdit } = useTaskStore();
+
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "low":
@@ -29,10 +32,10 @@ const TaskItem = ({ task }) => {
           </button>
           <button
             className="text-[#00A1F1]"
-            //   onClick={() => {
-            //     getTask(task._id);
-            //     openModalForEdit(task);
-            //   }}
+            onClick={() => {
+              getTask(task._id);
+              openModalForEdit(task);
+            }}
           >
             <Pencil />
           </button>

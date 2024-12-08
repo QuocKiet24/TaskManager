@@ -42,3 +42,7 @@ export const formatTime = (createdAt) => {
 
   return created.format("DD/MM/YYYY");
 };
+
+export const formatDueDate = (dueDate) => {
+  return new Date(dueDate).toISOString().split("T")[0];
+};

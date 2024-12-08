@@ -1,9 +1,10 @@
 import { useTaskStore } from "../store/taskStore";
 import TaskItem from "../components/TaskItem";
 import { useEffect } from "react";
+import Modal from "../components/Modal";
 
 const HomePage = () => {
-  const { tasks, getTasks } = useTaskStore();
+  const { tasks, getTasks, openModalForAdd, isEditing } = useTaskStore();
   useEffect(() => {
     getTasks();
   }, [getTasks]);
@@ -17,7 +18,15 @@ const HomePage = () => {
         {tasks.map((task, index) => (
           <TaskItem key={index} task={task} />
         ))}
+        <button
+          className="h-[16rem] w-full py-2 rounded-md text-lg font-medium text-gray-500 border-dashed border-2 border-gray-400
+          hover:bg-gray-300 hover:border-none transition duration-200 ease-in-out"
+          onClick={openModalForAdd}
+        >
+          Add New Task
+        </button>
       </div>
+      {isEditing && <Modal />} {/* Show modal when editing */}
     </main>
   );
 };

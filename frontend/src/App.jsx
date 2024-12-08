@@ -52,7 +52,7 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route element={<MainLayout />}>
           <Route
             path="/"
             element={
@@ -70,7 +70,7 @@ function App() {
             }
           />
         </Route>
-        <Route path="/" element={<AuthLayout />}>
+        <Route element={<AuthLayout />}>
           <Route
             path="/signup"
             element={
