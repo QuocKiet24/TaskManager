@@ -16,6 +16,6 @@ router.get("/get-manytasks", verifyToken, getManyTasks);
 router.get("/get-task/:id", verifyToken, getTask);
 router.patch("/update-task/:id", verifyToken, updateTask);
 router.delete("/delete-task/:id", verifyToken, deleteTask);
-router.delete("/delete-task", verifyToken, deleteAllTasks);
+router.delete("/delete-tasks", verifyToken, deleteAllTasks);
 
 export default router;

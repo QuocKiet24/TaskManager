@@ -11,6 +11,7 @@ const Modal = () => {
     modalMode,
     closeModal,
     createTask,
+    updateTask,
     isEditing,
   } = useTaskStore();
   const ref = useRef(null);
@@ -37,13 +38,14 @@ const Modal = () => {
 
     if (modalMode === "add") {
       createTask(task);
+    } else if (modalMode === "edit") {
+      updateTask(task._id, task);
     }
     closeModal();
   };
   return (
     <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
       <form
-        action=""
         className="py-5 px-6 max-w-[520px] w-full flex flex-col gap-3 bg-gray-900 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-md"
         onSubmit={handleSubmit}
         ref={ref}
@@ -93,7 +95,7 @@ const Modal = () => {
             className="bg-gray-900 p-2 rounded-md border"
             type="date"
             name="dueDate"
-            value={formatDueDate(task.dueDate)}
+            value={task.dueDate ? formatDueDate(task.dueDate) : ""}
             onChange={(e) => handleInput("dueDate")(e)}
           />
         </div>

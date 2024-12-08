@@ -105,29 +105,25 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   try {
-    const userId = req.userId;
+    const userId = req.userId; // User ID from verified token
+    const { id } = req.params; // Task ID from request parameters
 
-    const { id } = req.params;
-
-    if (!id) {
-      res.status(400).json({ message: "Please provide a task id" });
-    }
-
-    const task = await TaskModel.findById(id);
+    const task = await TaskModel.findById(id); // Fetch task by ID
 
     if (!task) {
-      res.status(404).json({ message: "Task not found!" });
+      return res.status(404).json({ message: "Task not found!" }); // Return to stop execution
     }
 
+    // Check if the user is the owner of the task
     if (!task.user.equals(userId)) {
-      res.status(401).json({ message: "Not authorized!" });
+      return res.status(401).json({ message: "Not authorized!" }); // Return to stop execution
     }
 
-    await TaskModel.findByIdAndDelete(id);
-    res.status(200).json({ message: "Task deleted successfully!" });
+    await TaskModel.findByIdAndDelete(id); // Delete the task
+
+    return res.status(200).json({ message: "Task deleted successfully!" });
   } catch (error) {
-    console.log("Error in deleteTask: ", error.message);
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: "Internal server error" }); // Return to stop execution
   }
 };
 

@@ -29,7 +29,7 @@ export const useTaskStore = create((set) => ({
     set({
       modalMode: "edit",
       isEditing: true,
-      task: task,
+      activeTask: task,
     });
   },
   closeModal: () => {
@@ -101,7 +101,43 @@ export const useTaskStore = create((set) => ({
       }));
       toast.success("Task created successfully!");
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error.response.data.message || "Error creating task");
+      console.log("Error creating task", error);
+      set({ isLoading: false });
+    }
+  },
+
+  updateTask: async (taskId, taskData) => {
+    set({ isLoading: true });
+    try {
+      const response = await axios.patch(
+        `${API_URL}/update-task/${taskId}`,
+        taskData
+      );
+      set((prevState) => ({
+        tasks: prevState.tasks.map((task) =>
+          task._id === taskId ? response.data : task
+        ),
+        isLoading: false,
+      }));
+      toast.success("Task updated successfully!");
+    } catch (error) {
+      toast.error(error.response.data.message || "Error updating task");
+      set({ isLoading: false });
+    }
+  },
+
+  deleteTask: async (taskId) => {
+    set({ isLoading: true });
+    try {
+      await axios.delete(`${API_URL}/delete-task/${taskId}`);
+      set((prevState) => ({
+        tasks: prevState.tasks.filter((task) => task._id !== taskId),
+        isLoading: false,
+      }));
+      toast.success("Task deleted successfully!");
+    } catch (error) {
+      toast.error(error.response.data.message || "Error deleting task");
       set({ isLoading: false });
     }
   },
