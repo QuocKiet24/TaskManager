@@ -2,17 +2,17 @@ import { Facebook, Instagram, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="border-t-gray-600">
-      <div className="bg-gray-900 mx-auto p-4 text-center flex flex-col lg:flex-row lg:justify-between gap-2">
+    <footer className="bg-gray-900 text-white text-center p-4">
+      <div className="flex flex-col lg:flex-row justify-between items-center gap-2">
         <p>© All Rights Reserved 2024.</p>
-        <div className="flex items-center justify-center gap-4 text-2xl">
-          <a href="" className="hover:text-primary-100">
+        <div className="flex items-center gap-4 text-xl">
+          <a href="#" className="hover:text-emerald-400">
             <Facebook />
           </a>
-          <a href="" className="hover:text-primary-100">
+          <a href="#" className="hover:text-emerald-400">
             <Instagram />
           </a>
-          <a href="" className="hover:text-primary-100">
+          <a href="#" className="hover:text-emerald-400">
             <Linkedin />
           </a>
         </div>

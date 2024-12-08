@@ -13,31 +13,27 @@ const Header = () => {
     }
   };
   return (
-    <header className="h-20 lg:h-16 py-4 px-8 lg:shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-gray-900">
-      <nav className="flex flex-wrap items-center justify-between gap-4">
+    <header className="h-20 lg:h-16 py-4 px-8 lg:shadow-md sticky top-0 z-40 bg-gray-900 text-white">
+      <nav className="flex items-center justify-between">
         <Link
           to="/"
-          className="text-2xl font-bold text-emerald-400 items-center space-x-2 flex"
+          className="text-md lg:text-2xl font-bold text-emerald-400 flex items-center space-x-2"
         >
           Task Manager
         </Link>
-        <h1 className="text-lg font-medium">
-          <span role="img" aria-label="wave">
-            👋
-          </span>
-          {userId ? `Welcome, ${user.name}!` : "Welcome to Task Manager!"}
-        </h1>
+        <div className="text-lg font-medium hidden lg:block">
+          {userId ? `👋 Welcome, ${user.name}!` : "Welcome to Task Manager!"}
+        </div>
         <div className="flex items-center gap-4">
           <Link
-            className="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium
-               transition duration-300 ease-in-out flex items-center"
+            to="/profile"
+            className="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium transition duration-300"
           >
             Profile
           </Link>
           <button
             onClick={handleLogout}
-            className="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium
-               transition duration-300 ease-in-out flex items-center"
+            className="bg-emerald-700 hover:bg-emerald-600 text-white px-3 py-1 rounded-md font-medium transition duration-300"
           >
             Logout
           </button>

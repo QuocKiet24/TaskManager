@@ -1,6 +1,6 @@
 import TaskModel from "../models/task.model.js";
 export const createTask = async (req, res) => {
-  const { title, description, dueDate, priority, status } = req.body;
+  const { title, description, dueDate, priority, status, completed } = req.body;
   const userId = req.userId;
   try {
     if (!title || title.trim() === "") {
@@ -10,12 +10,18 @@ export const createTask = async (req, res) => {
       res.status(400).json({ message: "Description is required!" });
     }
 
+    const checkSame = await TaskModel.findOne({ title, user: userId });
+    if (checkSame) {
+      return res.status(400).json({ message: "Task already exists!" });
+    }
+
     const task = new TaskModel({
       title,
       description,
       dueDate,
       priority,
       status,
+      completed,
       user: userId,
     });
     await task.save();
