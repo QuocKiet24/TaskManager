@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
-import DashBoardPage from "./pages/DashBoardPage";
+
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import MainLayout from "./layout/MainLayout";
@@ -60,7 +60,9 @@ function App() {
           }
         >
           <Route path="/" element={<HomePage />} />
-          <Route path="/profile" element={<DashBoardPage />} />
+          {/* completed */}
+          {/* pending
+          overdue */}
         </Route>
         <Route
           element={

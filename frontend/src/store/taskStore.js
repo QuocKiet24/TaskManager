@@ -19,6 +19,15 @@ export const useTaskStore = create((set) => ({
   activeTask: null,
   priority: "all",
   setPriority: (priority) => set({ priority }),
+  profileModal: false,
+
+  openModalProfile: () => {
+    set({ profileModal: true });
+  },
+
+  closeModalProfile: () => {
+    set({ profileModal: false });
+  },
 
   openModalForAdd: () => {
     set({

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useTaskStore } from "../store/taskStore";
 import useDetectOutside from "../hooks/useDetectOutside";
 import { formatDueDate } from "../utils/dateFormat";
+import { motion } from "framer-motion";
 
 const Modal = () => {
   const {
@@ -44,7 +45,13 @@ const Modal = () => {
     closeModal();
   };
   return (
-    <div className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.5 }}
+      className="fixed left-0 top-0 z-50 h-full w-full bg-[#333]/30 overflow-hidden"
+    >
       <form
         className="py-5 px-6 max-w-[520px] w-full flex flex-col gap-3 bg-gray-900 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-md"
         onSubmit={handleSubmit}
@@ -129,7 +136,7 @@ const Modal = () => {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
