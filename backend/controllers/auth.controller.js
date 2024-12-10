@@ -236,3 +236,30 @@ export const sendOTP = async (req, res) => {
     res.status(500).json({ message: error.message, success: false });
   }
 };
+
+export const updateUser = async (req, res) => {
+  const userId = req.userId;
+  const { name, email } = req.body;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    user.name = name;
+    user.email = email;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
+    });
+  } catch (error) {
+    console.log("Error in updateUser ", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};

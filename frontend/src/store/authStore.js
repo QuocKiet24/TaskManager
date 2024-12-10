@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const API_URL =
   import.meta.env.MODE === "development"
@@ -159,6 +160,27 @@ export const useAuthStore = create((set) => ({
       set({
         isLoading: false,
         error: error.response.data.message || "Error resetting password",
+      });
+      throw error;
+    }
+  },
+  updateUser: async (data) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.patch(`${API_URL}/update`, data, {
+        withCredentials: true,
+      });
+      set((prev) => ({
+        ...prev,
+        user: response.data.user,
+        isLoading: false,
+        error: null,
+      }));
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response.data.message || "Error updating password",
       });
       throw error;
     }

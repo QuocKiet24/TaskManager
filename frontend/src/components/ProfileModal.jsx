@@ -8,13 +8,11 @@ import useDetectOutside from "../hooks/useDetectOutside";
 import { useRef, useState } from "react";
 
 const ProfileModal = () => {
-  const { user, error, isLoading } = useAuthStore();
+  const { user, error, isLoading, updateUser } = useAuthStore();
   const { closeModalProfile, profileModal } = useTaskStore();
   const [data, setData] = useState({
     name: user.name,
     email: user.email,
-    password: "",
-    newPassword: "",
   });
   const ref = useRef(null);
   // Use the hook to detect clicks outside the modal
@@ -29,6 +27,12 @@ const ProfileModal = () => {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+  };
+  console.log(data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await updateUser(data);
+    closeModalProfile();
   };
 
   return (
@@ -95,7 +99,7 @@ const ProfileModal = () => {
           transition={{ delay: 0.6 }}
           className="mt-4"
         >
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="pt-2 grid grid-cols-2">
               <label htmlFor="name" className="text-sm font-medium">
                 Full Name
