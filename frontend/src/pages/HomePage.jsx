@@ -2,9 +2,14 @@ import { useTaskStore } from "../store/taskStore";
 import TaskItem from "../components/TaskItem";
 import { useEffect } from "react";
 import Modal from "../components/Modal";
+import Filters from "../components/Filters";
+import { filteredTasks } from "../utils/Filters";
 
 const HomePage = () => {
-  const { tasks, getTasks, openModalForAdd, isEditing } = useTaskStore();
+  const { tasks, getTasks, openModalForAdd, isEditing, priority } =
+    useTaskStore();
+
+  const filtered = filteredTasks(tasks, priority);
 
   useEffect(() => {
     getTasks();
@@ -15,12 +20,12 @@ const HomePage = () => {
       {/* Header */}
       <div className="flex justify-between mb-4">
         <h1 className="text-2xl font-bold text-white">All Tasks</h1>
-        <h1 className="text-white">Filters</h1>
+        <Filters />
       </div>
 
       {/* Task List */}
       <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[1.5rem]">
-        {tasks.map((task, index) => (
+        {filtered.map((task, index) => (
           <TaskItem key={index} task={task} />
         ))}
         <button

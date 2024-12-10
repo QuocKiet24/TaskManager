@@ -1,20 +1,20 @@
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+
+import SideBar from "../components/SideBar";
 
 const MainLayout = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-800">
-      {/* Header */}
       <Header />
-
-      {/* Content Area */}
-      <div className="flex-1 overflow-y-auto">
-        <Outlet />
+      <div className="flex flex-1">
+        <div className="flex-1 overflow-y-auto pr-[20rem] pl-6 py-6">
+          <Outlet />
+        </div>
+        <div className="w-[20rem] fixed right-0 top-16 bottom-0 overflow-hidden bg-gray-900 shadow-lg">
+          <SideBar />
+        </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

@@ -17,6 +17,8 @@ export const useTaskStore = create((set) => ({
   modalMode: "",
   error: null,
   activeTask: null,
+  priority: "all",
+  setPriority: (priority) => set({ priority }),
 
   openModalForAdd: () => {
     set({

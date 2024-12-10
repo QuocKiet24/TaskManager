@@ -52,59 +52,32 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route element={<MainLayout />}>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <DashBoardPage />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<HomePage />} />
+          <Route path="/profile" element={<DashBoardPage />} />
         </Route>
-        <Route element={<AuthLayout />}>
-          <Route
-            path="/signup"
-            element={
-              <RedirectAuthenticatedUser>
-                <SignUpPage />
-              </RedirectAuthenticatedUser>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RedirectAuthenticatedUser>
-                <LoginPage />
-              </RedirectAuthenticatedUser>
-            }
-          />
-          <Route path="/verify-email" element={<EmailVerificationPage />} />
-          <Route
-            path="/forgot-password"
-            element={
-              <RedirectAuthenticatedUser>
-                <ForgotPasswordPage />
-              </RedirectAuthenticatedUser>
-            }
-          />
+        <Route
+          element={
+            <RedirectAuthenticatedUser>
+              <AuthLayout />
+            </RedirectAuthenticatedUser>
+          }
+        >
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route
             path="/reset-password/:token"
-            element={
-              <RedirectAuthenticatedUser>
-                <ResetPasswordPage />
-              </RedirectAuthenticatedUser>
-            }
+            element={<ResetPasswordPage />}
           />
         </Route>
+        <Route path="/verify-email" element={<EmailVerificationPage />} />
         {/* catch all routes */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

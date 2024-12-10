@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
 const Header = () => {
   const { logout, user } = useAuthStore();
+  const navigate = useNavigate();
   const userId = user._id;
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
       await logout();
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
