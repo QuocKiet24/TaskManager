@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useAuthStore } from "../store/authStore";
 import { useTaskStore } from "../store/taskStore";
 
@@ -5,12 +6,17 @@ const Profile = () => {
   const { user } = useAuthStore();
   const { tasks } = useTaskStore();
   const userId = user._id;
-
+  const todayDate = moment();
   // get completed tasks
   const completedTasks = tasks.filter((task) => task.completed);
 
   // get pending tasks
   const activeTasks = tasks.filter((task) => !task.completed);
+
+  // get overdue tasks
+  const overdueTasks = tasks.filter(
+    (task) => !task.completed && moment(task.dueDate).isBefore(todayDate)
+  );
 
   return (
     <div className="m-6">
@@ -45,7 +51,7 @@ const Profile = () => {
             <p className="pl-4 relative flex gap-2">
               <span className="absolute h-[70%] w-[0.2rem] left-[1px] top-1/2 translate-y-[-50%] bg-orange-400 rounded-[5px]"></span>
               <span className="font-medium text-4xl text-white">
-                {activeTasks.length}
+                {overdueTasks.length}
               </span>
             </p>
           </div>

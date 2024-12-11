@@ -13,6 +13,9 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import MainLayout from "./layout/MainLayout";
 import AuthLayout from "./layout/AuthLayout";
 import HomePage from "./pages/HomePage";
+import CompletedPage from "./pages/CompletedPage";
+import PendingPage from "./pages/PendingPage";
+import OverduePage from "./pages/OverduePage";
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
@@ -60,7 +63,9 @@ function App() {
           }
         >
           <Route path="/" element={<HomePage />} />
-          {/* completed */}
+          <Route path="/completed" element={<CompletedPage />} />
+          <Route path="/pending" element={<PendingPage />} />
+          <Route path="/overdue" element={<OverduePage />} />
           {/* pending
           overdue */}
         </Route>

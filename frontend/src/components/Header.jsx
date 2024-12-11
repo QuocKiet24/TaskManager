@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   AlarmClockCheck,
   CircleUserRound,
@@ -34,6 +34,7 @@ const navItems = [
 
 const Header = () => {
   const { profileModal, openModalProfile } = useTaskStore();
+  const location = useLocation();
   return (
     <header className="h-20 lg:h-16 py-4 px-8 lg:shadow-md sticky top-0 z-40 bg-gray-900 text-white">
       <nav className="flex items-center justify-between">
@@ -44,16 +45,26 @@ const Header = () => {
           Task Manager
         </Link>
         <ul className="flex gap-12">
-          {navItems.map((item, index) => (
-            <li key={index} className="relative group">
-              <Link href={item.link}>{item.icon}</Link>
+          {navItems.map((item, index) => {
+            const isActive = location.pathname === item.link; // Check if the route is active
+            return (
+              <li
+                key={index}
+                className={`relative group ${
+                  isActive ? "text-emerald-700 font-bold" : ""
+                }`}
+              >
+                <Link to={item.link} className={isActive ? "underline" : ""}>
+                  {item.icon}
+                </Link>
 
-              {/* Hover Tooltip */}
-              <span className="u-triangle absolute top-[200%]  translate-y-[-50%] text-xs pointer-events-none text-white bg-emerald-700 px-2 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {item.title}
-              </span>
-            </li>
-          ))}
+                {/* Hover Tooltip */}
+                <span className="u-triangle absolute top-[200%] translate-y-[-50%] text-xs pointer-events-none text-white bg-emerald-700 px-2 py-1 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {item.title}
+                </span>
+              </li>
+            );
+          })}
         </ul>
         <div className="flex items-center gap-8">
           <button

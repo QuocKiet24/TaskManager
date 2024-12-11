@@ -11,7 +11,7 @@ const MainLayout = () => {
         <div className="flex-1 overflow-y-auto pr-[20rem] pl-6 py-6">
           <Outlet />
         </div>
-        <div className="w-[20rem] fixed right-0 top-16 bottom-0 overflow-hidden bg-gray-900 shadow-lg">
+        <div className="hidden md:block fixed w-[20rem] right-0 top-16 bottom-0 overflow-hidden bg-gray-900 shadow-lg ">
           <SideBar />
         </div>
       </div>
