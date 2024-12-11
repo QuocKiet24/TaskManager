@@ -9,8 +9,10 @@ Task manager using the MERN stack (MongoDB, Express, React, Node.js) and Tailwin
 - Express
 - Nodejs
 - TailwindCSS
+
   
 🔋 Features
+
 👉 **Authentication**: Login, register, verify account with Email
 
 👉 **Home Page**: Shows all task of the user has loggin
