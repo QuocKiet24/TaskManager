@@ -152,4 +152,46 @@ export const useTaskStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+  completeTask: async (taskId) => {
+    set({ isLoading: true });
+    try {
+      await axios.patch(`${API_URL}/complete-task/${taskId}`);
+      set((prevState) => ({
+        tasks: prevState.tasks.map((task) =>
+          task._id === taskId ? { ...task, completed: true } : task
+        ),
+        isLoading: false,
+      }));
+      toast.success("Task completed successfully!");
+    } catch (error) {
+      toast.error(error.response.data.message || "Error completing task");
+      set({ isLoading: false });
+    }
+  },
+
+  completeAllTasks: async () => {
+    set({ isLoading: true });
+    try {
+      await axios.patch(`${API_URL}/complete-all`);
+      set((prevState) => ({
+        tasks: prevState.tasks.map((task) => ({ ...task, completed: true })),
+      }));
+      toast.success("All tasks completed successfully!");
+    } catch (error) {
+      toast.error(error.response.data.message || "Error completing all tasks");
+      set({ isLoading: false });
+    }
+  },
+
+  deleteAllTasks: async () => {
+    set({ isLoading: true });
+    try {
+      await axios.delete(`${API_URL}/delete-all`);
+      set({ tasks: [] });
+      toast.success("All tasks deleted successfully!");
+    } catch (error) {
+      toast.error(error.response.data.message || "Error deleting all tasks");
+      set({ isLoading: false });
+    }
+  },
 }));

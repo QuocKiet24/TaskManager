@@ -139,20 +139,81 @@ export const deleteAllTasks = async (req, res) => {
 
     const tasks = await TaskModel.find({ user: userId });
 
-    if (!tasks) {
-      res.status(404).json({ message: "No tasks found!" });
+    // Check if tasks were found
+    if (!tasks || tasks.length === 0) {
+      return res.status(404).json({ message: "No tasks found!" });
     }
 
     // check if the user is the owner of the task
-    if (!tasks.user.equals(userId)) {
-      res.status(401).json({ message: "Not authorized!" });
+    const invalidTask = tasks.find((task) => !task.user.equals(userId));
+    if (invalidTask) {
+      return res.status(401).json({ message: "Not authorized!" });
     }
 
     await TaskModel.deleteMany({ user: userId });
 
-    return res.status(200).json({ message: "All tasks deleted successfully!" });
+    return res
+      .status(200)
+      .json({ message: "All tasks deleted successfully!", tasks });
   } catch (error) {
     console.log("Error in deleteAllTasks: ", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const completeAllTasks = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const tasks = await TaskModel.find({ user: userId });
+
+    // Check if tasks were found
+    if (!tasks || tasks.length === 0) {
+      return res.status(404).json({ message: "No tasks found!" });
+    }
+
+    // Verify that all tasks belong to the user
+    const invalidTask = tasks.find((task) => !task.user.equals(userId));
+    if (invalidTask) {
+      return res.status(401).json({ message: "Not authorized!" });
+    }
+
+    // Mark all tasks as completed
+    await TaskModel.updateMany({ user: userId }, { completed: true });
+
+    return res
+      .status(200)
+      .json({ message: "All tasks completed successfully!", tasks });
+  } catch (error) {
+    console.error("Error in completeAllTasks: ", error.message);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const completeTask = async (req, res) => {
+  try {
+    const userId = req.userId; // User ID from verified token
+    const { id } = req.params; // Task ID from request parameters
+
+    const task = await TaskModel.findById(id); // Fetch task by ID
+
+    if (!task) {
+      return res.status(404).json({ message: "Task not found!" }); // Return to stop execution
+    }
+
+    // Check if the user is the owner of the task
+    if (!task.user.equals(userId)) {
+      return res.status(401).json({ message: "Not authorized!" }); // Return to stop execution
+    }
+
+    if (task.completed) {
+      return res.status(400).json({ message: "Task already completed!" });
+    }
+
+    await TaskModel.findByIdAndUpdate(id, { completed: true }); // Update the task
+
+    return res.status(200).json({ message: "Task completed successfully!" });
+  } catch (error) {
+    console.log("Error in completeTask: ", error.message);
     res.status(500).json({ message: error.message });
   }
 };

@@ -1,12 +1,13 @@
 import { Check, Pencil, Trash } from "lucide-react";
 import { formatDate } from "../utils/dateFormat";
 import { useTaskStore } from "../store/taskStore";
-import { useState } from "react";
-import ConfirmDialog from "./ConfirmDialog";
+import useConfirmDialog from "../hooks/useConfirmDialog";
 
 const TaskItem = ({ task }) => {
-  const { getTask, openModalForEdit, deleteTask } = useTaskStore();
-  const [openDialog, setOpenDialog] = useState(false);
+  const { getTask, openModalForEdit, deleteTask, completeTask } =
+    useTaskStore();
+  // Use the custom hook
+  const { openDialog, ConfirmDialog } = useConfirmDialog();
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "low":
@@ -20,10 +21,6 @@ const TaskItem = ({ task }) => {
     }
   };
 
-  const handleDelete = () => {
-    setOpenDialog(!openDialog);
-  };
-
   return (
     <div className="h-[16rem] px-4 py-3 flex flex-col gap-4 shadow-sm bg-gray-900 rounded-lg border-2 border-gray-700">
       <div>
@@ -33,6 +30,7 @@ const TaskItem = ({ task }) => {
       <div className="mt-auto flex flex-col gap-4">
         <div className="ml-auto flex items-center gap-3 text-gray-400 text-[1.2rem]">
           <button
+            onClick={() => completeTask(task._id)}
             className={`${task.completed ? "text-green-500" : "text-gray-400"}`}
           >
             <Check />
@@ -46,7 +44,10 @@ const TaskItem = ({ task }) => {
           >
             <Pencil />
           </button>
-          <button className="text-[#F65314]" onClick={handleDelete}>
+          <button
+            className="text-[#F65314]"
+            onClick={() => openDialog(`delete ${task.title}`, deleteTask)}
+          >
             <Trash />
           </button>
         </div>
@@ -61,12 +62,8 @@ const TaskItem = ({ task }) => {
           </p>
         </div>
       </div>
-      {openDialog && (
-        <ConfirmDialog
-          onClose={() => setOpenDialog(false)}
-          onConfirm={() => deleteTask(task._id)}
-        />
-      )}
+      {/* Render the ConfirmDialog */}
+      <ConfirmDialog />
     </div>
   );
 };
