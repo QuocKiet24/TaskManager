@@ -2,10 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const API_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000/api/task"
-    : "/api/task";
+const API_URL = "https://taskmanager-1l9s.onrender.com/api/task";
 
 axios.defaults.withCredentials = true;
 
